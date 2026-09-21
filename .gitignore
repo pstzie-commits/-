@@ -5,3 +5,5 @@ venv/
 .env
 reports/
 *.egg-info/
+managed_agent/agent_ids.json
+managed_agent_reports/
