@@ -1,0 +1,6 @@
+name: kgs-compliance-cloud-env
+config:
+  type: cloud
+  networking:
+    type: limited
+    allowed_hosts: []
