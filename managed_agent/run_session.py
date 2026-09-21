@@ -136,8 +136,12 @@ def run(document_path: Path, checklist_paths: list[Path], output_dir: Path) -> i
     downloaded = 0
     for attempt in range(3):
         files = client.beta.files.list(scope_id=session.id, betas=["managed-agents-2026-04-01"])
-        if files.data:
-            for f in files.data:
+        # `files.list` for a session scope also returns the input resources we
+        # uploaded (checklists, source document) - only files the agent wrote
+        # to /mnt/session/outputs/ are `downloadable`.
+        output_files = [f for f in files.data if f.downloadable]
+        if output_files:
+            for f in output_files:
                 content = client.beta.files.download(f.id)
                 dest = output_dir / f.filename
                 content.write_to_file(str(dest))
